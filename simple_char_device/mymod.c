@@ -21,10 +21,10 @@ static int device_release(struct inode *, struct file *);
 static ssize_t device_read(struct file *, char *, size_t, loff_t *);
 static ssize_t device_write(struct file *, const char *, size_t, loff_t *);
 
-static int major_num;
+static int major_num = 0;
 static int device_open_count = 0;
 static char msg_buffer[MSG_BUFFER_LEN];
-static char *msg_ptr;
+static char *msg_ptr = NULL;
 
 /*
 Pointer to device functions
@@ -38,7 +38,7 @@ static struct file_operations file_ops = {
 
 static ssize_t device_read(struct file *flip, char *buffer, size_t len, loff_t *offset){
 	int bytes_read = 0;
-	if (*msg_ptr == 0){
+	if (msg_ptr == NULL){
 		msg_ptr = msg_buffer;
 	}
 
